@@ -41,12 +41,14 @@
             --shadow-hover: 0 10px 30px rgba(46,94,153,.25);
             --glow: 0 0 25px rgba(123,164,208,.5);
             --glow-intense: 0 0 40px rgba(123,164,208,.7);
+            --wa-green: #25D366;
+            --wa-dark:  #128C7E;
         }
         *{box-sizing:border-box;margin:0;padding:0}
         body{font-family:'Inter',sans-serif;background:var(--lightest);color:var(--darkest);line-height:1.6;overflow-x:hidden}
 
         /* light effects */
-        @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(123,164,208,.4)}50%{box-shadow:0 0 40px rgba(123,164,208,.8)}}
+        @keyframes pulseGlow{0%,100%{box-shadow:0 0 20px rgba(37,211,102,.4)}50%{box-shadow:0 0 40px rgba(37,211,102,.8)}}
         .glow-pulse{animation:pulseGlow 2.5s infinite}
         @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
         .shine-effect{position:relative;overflow:hidden}
@@ -58,6 +60,23 @@
         .glow-border{border:2px solid transparent;background:linear-gradient(var(--white),var(--white)) padding-box,linear-gradient(135deg,var(--primary),var(--light)) border-box;transition:all .4s}
         .glow-border:hover{box-shadow:0 0 25px rgba(46,94,153,.4);transform:translateY(-3px)}
 
+        /* ---- WhatsApp-coloured buttons (form openers) ---- */
+        .open-any{
+            background:linear-gradient(135deg,var(--wa-green),var(--wa-dark)) !important;
+            color:var(--white) !important;
+            padding:.85rem 1.8rem;border-radius:50px;font-weight:800;border:none;
+            display:inline-flex;align-items:center;gap:.5rem;
+            box-shadow:0 8px 20px rgba(37,211,102,.3);
+            cursor:pointer;transition:all .3s;text-decoration:none;font-size:1rem;white-space:nowrap;
+            position:relative;overflow:hidden;
+        }
+        .open-any:hover{
+            transform:translateY(-3px) scale(1.03);
+            box-shadow:0 0 40px rgba(37,211,102,.7),0 15px 30px rgba(37,211,102,.4);
+        }
+        .open-any:active{transform:translateY(0) scale(.98)}
+
+        /* ---- other buttons keep original theme ---- */
         .wa-btn{background:linear-gradient(135deg,var(--primary),var(--light));color:var(--white);padding:.85rem 1.8rem;border-radius:50px;font-weight:800;border:none;display:inline-flex;align-items:center;gap:.5rem;box-shadow:0 8px 20px rgba(46,94,153,.3);cursor:pointer;transition:all .3s;text-decoration:none;font-size:1rem;white-space:nowrap;position:relative;overflow:hidden}
         .wa-btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:var(--glow-intense),0 15px 30px rgba(46,94,153,.4)}
         .wa-btn:active{transform:translateY(0) scale(.98)}
@@ -143,12 +162,12 @@
     </div>
 </section>
 
-<!-- ===== ABOUT / VIDEO (NEW SHORTS URL) ===== -->
+<!-- ===== ABOUT / VIDEO ===== -->
 <section class="py-5" style="background: var(--lightest);">
     <div class="container">
         <div class="row g-4 align-items-center">
             <div class="col-lg-6">
-                <div class="wa-btn glow-pulse mb-3 d-inline-block">👇 Watch My Journey 👇</div>
+                <div class="open-any glow-pulse mb-3 d-inline-block">👇 Watch My Journey 👇</div>
                 <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-lg">
                     <iframe src="https://www.youtube.com/embed/_ea5WU9rWqs?rel=0&modestbranding=1&controls=1" 
                             allowfullscreen 
@@ -167,7 +186,7 @@
                     <h3 class="h5 fw-bold mb-2" style="color:var(--primary);">🎯 My Vision:</h3>
                     <p class="fs-5 fw-semibold mb-0">"Empower People to Empower Themselves"</p>
                 </div>
-                <button class="wa-btn mb-4 open-any shine-effect">📲 Connect on WhatsApp</button>
+                <button class="open-any mb-4 shine-effect">📲 Connect on WhatsApp</button>
                 <div class="row g-3">
                     <div class="col-md-4"><div class="stat-card shine-effect"><div class="counter" data-target="5" data-suffix="+">0</div><p>Years of Experience</p></div></div>
                     <div class="col-md-4"><div class="stat-card shine-effect"><div class="counter" data-target="2000" data-suffix="+">0</div><p>Students Helped</p></div></div>
@@ -178,7 +197,7 @@
     </div>
 </section>
 
-<!-- ===== FEEDBACK (NEW IMAGES) ===== -->
+<!-- ===== FEEDBACK ===== -->
 <section class="py-5" style="background: var(--white);">
     <div class="container">
         <h2 class="text-center display-5 fw-bold mb-3" style="color:var(--primary);">✨ Real Success Stories</h2>
@@ -272,7 +291,7 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-5"><button class="wa-btn open-any shine-effect">📲 Get Started Now</button></div>
+        <div class="text-center mt-5"><button class="open-any shine-effect">📲 Get Started Now</button></div>
     </div>
 </section>
 
@@ -351,9 +370,9 @@
                 <div class="col-md-4"><div class="glow-border text-dark p-3 rounded" style="background:var(--lightest);"><strong>💼 Profession:</strong> Current Status</div></div>
             </div>
             <p class="fs-6 fw-semibold mb-3" style="color:var(--primary);">📌 Save My Number: 9109753349</p>
-            <button class="wa-btn open-any glow-pulse" style="background:var(--white);color:var(--primary);border:1px solid var(--primary);">📲 Message on WhatsApp Now</button>
+            <button class="open-any glow-pulse" style="background:var(--white);color:var(--primary);border:1px solid var(--primary);">📲 Message on WhatsApp Now</button>
             <div class="text-center mt-4">
-                <a href="https://www.instagram.com/_syed_rubab_?igsh=NWdka2xhYmx6OHQ2==" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center gap-2"><i data-lucide="instagram" width="24"></i>Follow on Instagram</a>
+                <a href="https://www.instagram.com/_syed_rubab_?igsh=NWdka2xhYmx6OHQ2" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center gap-2"><i data-lucide="instagram" width="24"></i>Follow on Instagram</a>
             </div>
         </div>
         <div class="card border-0 p-3 mb-3 glow-border" style="background:rgba(255,255,255,.15);">

@@ -116,6 +116,26 @@
         .form-control,.form-select{background:var(--lightest);border:2px solid var(--light);color:var(--darkest);border-radius:8px;padding:.6rem .9rem;transition:all .3s}
         .form-control:focus,.form-select:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(46,94,153,.15)}
 
+        /* ===== NEW CENTRED PP MODAL (CLEAN) ===== */
+        .pp-overlay-new{position:fixed;inset:0;background:rgba(13,36,64,.75);backdrop-filter:blur(4px);z-index:10001;opacity:0;visibility:hidden;transition:opacity .3s ease}
+        .pp-overlay-new.show{opacity:1;visibility:visible}
+        .pp-modal-new{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.95);width:90%;max-width:560px;max-height:86vh;background:#fff;border-radius:16px;box-shadow:0 20px 40px rgba(46,94,153,.25);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:all .3s ease}
+        .pp-overlay-new.show .pp-modal-new{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+        .pp-header-new{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e7f0fa;flex-shrink:0}
+        .pp-title-new{font-size:1.25rem;font-weight:700;color:#2e5e99}
+        .pp-close-new{background:none;border:none;font-size:1.5rem;color:#7ba4d0;cursor:pointer;transition:color .2s}
+        .pp-close-new:hover{color:#2e5e99}
+        .pp-body-new{padding:1.5rem;overflow-y:auto;font-size:.95rem;line-height:1.6}
+        .pp-body-new h3{font-size:1rem;font-weight:600;margin:1rem 0 .5rem;color:#2e5e99}
+        .pp-body-new h3:first-child{margin-top:0}
+        .pp-body-new p{margin-bottom:.75rem}
+        .pp-footer-new{margin-top:1rem;font-size:.85rem;font-weight:600;text-align:center;color:#2e5e99}
+        @media (max-width:600px){
+            .pp-modal-new{width:92%;border-radius:12px}
+            .pp-header-new{padding:1rem}
+            .pp-body-new{padding:1rem}
+        }
+
         @media(max-width:768px){
             section{padding:40px 0}
             .hero-section{padding:50px 0 30px}
@@ -136,17 +156,27 @@
 <!-- FORM BACKDROP -->
 <div class="form-backdrop" id="formBackdrop"></div>
 
-<!-- PRIVACY MODAL -->
-<div class="privacy-modal" id="privacyModal">
-    <div class="privacy-content" id="privacyContent">
-        <button class="btn-close position-absolute top-0 end-0 m-3" id="closePrivacyBtn" aria-label="Close"></button>
-        <h2 class="h4 fw-bold mb-3" style="color:var(--primary);">Privacy Policy</h2>
-        <div style="font-size:0.9rem;line-height:1.6;">
-            <p><strong>Information We Collect:</strong> Name, phone, email you provide via WhatsApp or forms.</p>
-            <p><strong>How We Use It:</strong> Only to share course info, support, updates. Never sold.</p>
-            <p><strong>Your Rights:</strong> Access, correct, delete anytime. Contact us.</p>
-            <p class="mt-3"><strong>Disclaimer:</strong> Results depend on personal effort. Earnings vary.</p>
-            <p class="text-center mb-0">© 2025 Learn with Ruba. All rights reserved.</p>
+<!-- ===== NEW CLEAN PP MODAL ===== -->
+<div class="pp-overlay-new" id="ppOverlayNew">
+    <div class="pp-modal-new">
+        <div class="pp-header-new">
+            <div class="pp-title-new">Privacy Policy</div>
+            <button class="pp-close-new" id="ppCloseNew">&times;</button>
+        </div>
+        <div class="pp-body-new">
+            <h3>Information We Collect</h3>
+            <p>We collect information you provide directly to us, such as your name, phone number, and email address when you contact us through WhatsApp or other channels.</p>
+
+            <h3>How We Use Your Information</h3>
+            <p>Your information is used solely to communicate with you about our training programs, provide customer support, and send updates about courses you've expressed interest in.</p>
+
+            <h3>Data Protection</h3>
+            <p>We implement appropriate security measures to protect your personal information. Your data is never sold or shared with third parties for marketing purposes.</p>
+
+            <h3>Your Rights</h3>
+            <p>You have the right to access, correct, or delete your personal information at any time. Contact us to exercise these rights or for any privacy-related concerns.</p>
+
+            <div class="pp-footer-new">By using our services, you agree to this privacy policy. Last updated: December 2024</div>
         </div>
     </div>
 </div>
@@ -489,9 +519,9 @@
     const mainForm=document.getElementById('mainForm');
     const sourceInfo=document.getElementById('sourceInfo');
     const closeFormBtn=document.getElementById('closeFormBtn');
-    const privacyModal=document.getElementById('privacyModal');
+    const ppOverlayNew=document.getElementById('ppOverlayNew');
+    const ppCloseNew=document.getElementById('ppCloseNew');
     const privacyBtn=document.getElementById('privacyBtn');
-    const closePrivacyBtn=document.getElementById('closePrivacyBtn');
     const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwqqGLMvfVJT7QaeMtERNO093lwfqX6ruH7uXaPBnqcjbZMi_4HW75vDuD8nH9QfGFTQw/exec";
     const WA_NUMBER_INT="919109753349";
 
@@ -507,18 +537,19 @@
         document.body.style.overflow='';
         setTimeout(()=>mainForm.reset(),300);
     }
-    function openPrivacy(){
-        privacyModal.classList.add('show');
+    function openPPNew(){
+        ppOverlayNew.classList.add('show');
         document.body.style.overflow='hidden';
     }
-    function closePrivacy(){
-        privacyModal.classList.remove('show');
+    function closePPNew(){
+        ppOverlayNew.classList.remove('show');
         document.body.style.overflow='';
     }
     formBackdrop.addEventListener('click',closeForm);
     closeFormBtn.addEventListener('click',closeForm);
-    privacyBtn.addEventListener('click',openPrivacy);
-    closePrivacyBtn.addEventListener('click',closePrivacy);
+    privacyBtn.addEventListener('click',openPPNew);
+    ppCloseNew.addEventListener('click',closePPNew);
+    ppOverlayNew.addEventListener('click',function(e){if(e.target===ppOverlayNew)closePPNew();});
     document.addEventListener('click',(e)=>{
         const trigger=e.target.closest('.open-any');
         if(trigger&&!trigger.closest('#formContainer')){e.preventDefault();openForm(trigger.dataset.source||'Website');}
@@ -540,7 +571,7 @@
         closeForm();
     });
     document.addEventListener('keydown',(e)=>{
-        if(e.key==='Escape'){closeForm();closePrivacy();}
+        if(e.key==='Escape'){closeForm();closePPNew();}
     });
 </script>
 </body>

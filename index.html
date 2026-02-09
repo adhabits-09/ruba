@@ -522,7 +522,11 @@
     const ppOverlayNew=document.getElementById('ppOverlayNew');
     const ppCloseNew=document.getElementById('ppCloseNew');
     const privacyBtn=document.getElementById('privacyBtn');
-    const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwqqGLMvfVJT7QaeMtERNO093lwfqX6ruH7uXaPBnqcjbZMi_4HW75vDuD8nH9QfGFTQw/exec";
+    
+    // Google Sheets Script URL
+    const SCRIPT_URL="https://script.google.com/macros/s/AKfycbwCSSdclCT3iUr6oRi2Y1BfWTzHjkM3U9yKyZ0HwwgwpE1Qbl7vvlrgNvYVXMNh4KecNQ/exec";
+    
+    // Ruba's WhatsApp Number
     const WA_NUMBER_INT="919630297842";
 
     function openForm(source='site'){
@@ -554,6 +558,8 @@
         const trigger=e.target.closest('.open-any');
         if(trigger&&!trigger.closest('#formContainer')){e.preventDefault();openForm(trigger.dataset.source||'Website');}
     });
+
+    // ===== FORM SUBMISSION: GOOGLE SHEETS + SIMPLE WHATSAPP MESSAGE =====
     mainForm.addEventListener('submit',(e)=>{
         e.preventDefault();
         const name=document.getElementById('inp_name').value.trim();
@@ -561,15 +567,52 @@
         const age=document.getElementById('inp_age').value;
         const gender=document.getElementById('inp_gender').value;
         const profession=document.getElementById('inp_profession').value;
-        if(!name||phone.length<6||!age||!gender||!profession){alert('Please fill all fields correctly.');return;}
+        
+        if(!name||phone.length<6||!age||!gender||!profession){
+            alert('Please fill all fields correctly.');
+            return;
+        }
+
+        // ---- SEND DATA TO GOOGLE SHEET ----
         const formData=new FormData();
-        formData.append('name',name);formData.append('phone',phone);formData.append('age',age);formData.append('gender',gender);formData.append('profession',profession);formData.append('source',sourceInfo.value);formData.append('timestamp',new Date().toISOString());
-        fetch(SCRIPT_URL,{method:'POST',body:formData,mode:'no-cors'}).catch(()=>{});
-        const msg=encodeURIComponent(`Hello Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`);
-        if(typeof fbq!=='undefined'){fbq('track','Contact');fbq('track','Lead',{content_name:'WhatsApp Form',content_source:sourceInfo.value});}
-        window.open(`https://wa.me/${WA_NUMBER_INT}?text=${msg}`,'_blank');
+        formData.append('name',name);
+        formData.append('phone',phone);
+        formData.append('age',age);
+        formData.append('gender',gender);
+        formData.append('profession',profession);
+        formData.append('source',sourceInfo.value||'Website');
+        formData.append('timestamp',new Date().toISOString());
+
+        fetch(SCRIPT_URL,{
+            method:'POST',
+            body:formData,
+            mode:'no-cors'
+        }).then(()=>{
+            console.log('Data sent to Google Sheets successfully');
+        }).catch(error=>{
+            console.error('Error sending to Sheets:',error);
+        });
+
+        // ---- META PIXEL TRACKING ----
+        if(typeof fbq!=='undefined'){
+            fbq('track','Contact');
+            fbq('track','Lead',{
+                content_name:'WhatsApp Form Submission',
+                content_category:'Lead Generation',
+                content_source:sourceInfo.value
+            });
+        }
+
+        // ---- SIMPLIFIED WHATSAPP MESSAGE (No details included) ----
+        const message=encodeURIComponent("I'm ready to start my skill journey. Please share next steps.");
+        
+        // Open WhatsApp with simple message
+        window.open(`https://wa.me/${WA_NUMBER_INT}?text=${message}`,'_blank');
+        
+        // Close form
         closeForm();
     });
+
     document.addEventListener('keydown',(e)=>{
         if(e.key==='Escape'){closeForm();closePPNew();}
     });
